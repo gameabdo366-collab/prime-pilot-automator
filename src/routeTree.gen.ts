@@ -13,6 +13,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as ActivateRouteImport } from './routes/activate'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedActivationsRouteImport } from './routes/_authenticated/activations'
 import { Route as AuthenticatedLogsRouteImport } from './routes/_authenticated/logs'
 import { Route as AuthenticatedScreenshotsRouteImport } from './routes/_authenticated/screenshots'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -38,6 +39,12 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedActivationsRoute =
+  AuthenticatedActivationsRouteImport.update({
+    id: '/activations',
+    path: '/activations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLogsRoute = AuthenticatedLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
@@ -69,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
+  '/activations': typeof AuthenticatedActivationsRoute
   '/logs': typeof AuthenticatedLogsRoute
   '/screenshots': typeof AuthenticatedScreenshotsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
+  '/activations': typeof AuthenticatedActivationsRoute
   '/logs': typeof AuthenticatedLogsRoute
   '/screenshots': typeof AuthenticatedScreenshotsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -90,6 +99,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
+  '/_authenticated/activations': typeof AuthenticatedActivationsRoute
   '/_authenticated/logs': typeof AuthenticatedLogsRoute
   '/_authenticated/screenshots': typeof AuthenticatedScreenshotsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/activate'
     | '/auth'
+    | '/activations'
     | '/logs'
     | '/screenshots'
     | '/settings'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
   to:
     | '/activate'
     | '/auth'
+    | '/activations'
     | '/logs'
     | '/screenshots'
     | '/settings'
@@ -123,6 +135,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/activate'
     | '/auth'
+    | '/_authenticated/activations'
     | '/_authenticated/logs'
     | '/_authenticated/screenshots'
     | '/_authenticated/settings'
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/activations': {
+      id: '/_authenticated/activations'
+      path: '/activations'
+      fullPath: '/activations'
+      preLoaderRoute: typeof AuthenticatedActivationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/logs': {
       id: '/_authenticated/logs'
       path: '/logs'
@@ -206,6 +226,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedActivationsRoute: typeof AuthenticatedActivationsRoute
   AuthenticatedLogsRoute: typeof AuthenticatedLogsRoute
   AuthenticatedScreenshotsRoute: typeof AuthenticatedScreenshotsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -215,6 +236,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedActivationsRoute: AuthenticatedActivationsRoute,
   AuthenticatedLogsRoute: AuthenticatedLogsRoute,
   AuthenticatedScreenshotsRoute: AuthenticatedScreenshotsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
