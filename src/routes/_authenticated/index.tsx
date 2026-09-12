@@ -9,6 +9,7 @@ import {
   XCircle,
   Activity,
   Server,
+  KeyRound,
   ArrowUpRight,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -20,6 +21,7 @@ import { accountsService } from "@/services/accounts";
 import { cardsService } from "@/services/cards";
 import { tasksService, countByStatus } from "@/services/tasks";
 import { logsService } from "@/services/logs";
+import { activationsService } from "@/services/activations";
 import { workflowName } from "@/lib/workflows";
 import { relativeTime } from "@/lib/format";
 
@@ -49,8 +51,12 @@ function Dashboard() {
   const tasks = useQuery({ queryKey: ["tasks"], queryFn: () => tasksService.list() });
   const logs = useQuery({ queryKey: ["logs"], queryFn: () => logsService.list(8) });
 
+  const codes = useQuery({ queryKey: ["activations"], queryFn: () => activationsService.list() });
+
   const counts = countByStatus(tasks.data ?? []);
   const usableCards = (cards.data ?? []).filter((card) => card.status === "Available").length;
+  const unusedCodes = (codes.data ?? []).filter((row) => row.status === "Unused").length;
+  const activatedCodes = (codes.data ?? []).filter((row) => row.status === "Activated").length;
 
   return (
     <>
@@ -68,6 +74,13 @@ function Dashboard() {
       />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <StatCard
+          index={0}
+          label="Activation codes"
+          value={codes.data?.length ?? 0}
+          hint={`${unusedCodes} unused · ${activatedCodes} activated`}
+          icon={KeyRound}
+        />
         <StatCard
           index={0}
           label="Accounts"
