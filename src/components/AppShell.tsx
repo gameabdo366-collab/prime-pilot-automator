@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import {
   LayoutDashboard,
-  ShieldCheck,
+  Users,
+  CreditCard,
   Workflow,
+  ListChecks,
   ScrollText,
   Images,
   KeyRound,
@@ -13,13 +15,15 @@ import {
 import type { ReactNode } from "react";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/activations", label: "Activation Codes", icon: KeyRound },
-  { to: "/vault", label: "Vault", icon: ShieldCheck },
-  { to: "/workflows", label: "Workflows", icon: Workflow },
-  { to: "/logs", label: "Logs", icon: ScrollText },
-  { to: "/screenshots", label: "Screenshots", icon: Images },
-  { to: "/settings", label: "Settings", icon: SettingsIcon },
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/accounts", label: "Accounts", icon: Users },
+  { to: "/admin/cards", label: "Cards", icon: CreditCard },
+  { to: "/admin/activations", label: "Activation Codes", icon: KeyRound },
+  { to: "/admin/workflows", label: "Workflows", icon: Workflow },
+  { to: "/admin/tasks", label: "Tasks", icon: ListChecks },
+  { to: "/admin/logs", label: "Logs", icon: ScrollText },
+  { to: "/admin/screenshots", label: "Screenshots", icon: Images },
+  { to: "/admin/settings", label: "Settings", icon: SettingsIcon },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -32,7 +36,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
           <div className="leading-tight">
             <p className="text-sm font-semibold">Atlas Runner</p>
-            <p className="text-xs text-muted-foreground">Personal automation</p>
+            <p className="text-xs text-muted-foreground">Admin portal</p>
           </div>
         </div>
 
@@ -41,7 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact: to === "/" }}
+              activeOptions={{ exact: to === "/admin" }}
               className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/75 transition-all hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               activeProps={{
                 className:
@@ -71,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link
               key={to}
               to={to}
-              activeOptions={{ exact: to === "/" }}
+              activeOptions={{ exact: to === "/admin" }}
               className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs text-muted-foreground"
               activeProps={{ className: "bg-accent text-accent-foreground" }}
             >
