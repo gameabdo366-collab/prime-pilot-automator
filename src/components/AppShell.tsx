@@ -5,6 +5,7 @@ import {
   Workflow,
   ScrollText,
   Images,
+  KeyRound,
   Settings as SettingsIcon,
   Zap,
   CircleDot,
@@ -13,6 +14,7 @@ import type { ReactNode } from "react";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/activations", label: "Activation Codes", icon: KeyRound },
   { to: "/vault", label: "Vault", icon: ShieldCheck },
   { to: "/workflows", label: "Workflows", icon: Workflow },
   { to: "/logs", label: "Logs", icon: ScrollText },
