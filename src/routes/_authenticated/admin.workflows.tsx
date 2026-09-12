@@ -220,24 +220,19 @@ function WorkflowsPage() {
         </div>
       </div>
 
-      <div className="panel animate-rise mt-6 p-6">
-        <h2 className="mb-4 text-sm font-semibold">Queue</h2>
-        {(tasks.data ?? []).length === 0 ? (
-          <p className="py-6 text-center text-sm text-muted-foreground">Nothing queued yet.</p>
-        ) : (
-          <ul className="divide-y divide-border">
-            {(tasks.data ?? []).map((task) => (
-              <li key={task.id} className="flex flex-wrap items-center gap-3 py-3">
-                <span className="flex-1 text-sm font-medium">{workflowName(task.workflow)}</span>
-                <span className="text-xs text-muted-foreground">{task.priority}</span>
-                <StatusPill status={task.status} />
-                <span className="text-xs text-muted-foreground">
-                  {relativeTime(task.created_at)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className="panel animate-rise mt-6 flex flex-wrap items-center justify-between gap-3 p-6">
+        <div>
+          <h2 className="text-sm font-semibold">Queue</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {(tasks.data ?? []).length} task(s) waiting or finished.
+          </p>
+        </div>
+        <Link
+          to="/admin/tasks"
+          className="text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+        >
+          Open Tasks
+        </Link>
       </div>
     </>
   );

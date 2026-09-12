@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as ActivateRouteImport } from './routes/activate'
-import { Route as AuthenticatedVaultRouteImport } from './routes/_authenticated/vault'
 import { Route as ActivateDriverRouteImport } from './routes/activate.$driver'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
@@ -38,11 +37,6 @@ const ActivateRoute = ActivateRouteImport.update({
   id: '/activate',
   path: '/activate',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedVaultRoute = AuthenticatedVaultRouteImport.update({
-  id: '/vault',
-  path: '/vault',
-  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ActivateDriverRoute = ActivateDriverRouteImport.update({
   id: '/$driver',
@@ -108,7 +102,6 @@ const AuthenticatedAdminWorkflowsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/activate': typeof ActivateRouteWithChildren
-  '/vault': typeof AuthenticatedVaultRoute
   '/activate/$driver': typeof ActivateDriverRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/accounts': typeof AuthenticatedAdminAccountsRoute
@@ -124,7 +117,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/activate': typeof ActivateRouteWithChildren
-  '/vault': typeof AuthenticatedVaultRoute
   '/activate/$driver': typeof ActivateDriverRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/accounts': typeof AuthenticatedAdminAccountsRoute
@@ -142,7 +134,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/activate': typeof ActivateRouteWithChildren
-  '/_authenticated/vault': typeof AuthenticatedVaultRoute
   '/activate/$driver': typeof ActivateDriverRoute
   '/admin/login': typeof AdminLoginRoute
   '/_authenticated/admin/accounts': typeof AuthenticatedAdminAccountsRoute
@@ -160,7 +151,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/activate'
-    | '/vault'
     | '/activate/$driver'
     | '/admin/login'
     | '/admin/accounts'
@@ -176,7 +166,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/activate'
-    | '/vault'
     | '/activate/$driver'
     | '/admin/login'
     | '/admin/accounts'
@@ -193,7 +182,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/activate'
-    | '/_authenticated/vault'
     | '/activate/$driver'
     | '/admin/login'
     | '/_authenticated/admin/accounts'
@@ -236,13 +224,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/activate'
       preLoaderRoute: typeof ActivateRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/vault': {
-      id: '/_authenticated/vault'
-      path: '/vault'
-      fullPath: '/vault'
-      preLoaderRoute: typeof AuthenticatedVaultRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/activate/$driver': {
       id: '/activate/$driver'
@@ -325,7 +306,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedVaultRoute: typeof AuthenticatedVaultRoute
   AuthenticatedAdminAccountsRoute: typeof AuthenticatedAdminAccountsRoute
   AuthenticatedAdminActivationsRoute: typeof AuthenticatedAdminActivationsRoute
   AuthenticatedAdminCardsRoute: typeof AuthenticatedAdminCardsRoute
@@ -338,7 +318,6 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedVaultRoute: AuthenticatedVaultRoute,
   AuthenticatedAdminAccountsRoute: AuthenticatedAdminAccountsRoute,
   AuthenticatedAdminActivationsRoute: AuthenticatedAdminActivationsRoute,
   AuthenticatedAdminCardsRoute: AuthenticatedAdminCardsRoute,
