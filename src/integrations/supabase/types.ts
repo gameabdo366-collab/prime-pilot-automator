@@ -66,6 +66,7 @@ export type Database = {
           id: string
           notes: string
           renewal_date: string | null
+          session_token: string | null
           status: Database["public"]["Enums"]["activation_status"]
           task_id: string | null
           updated_at: string
@@ -83,6 +84,7 @@ export type Database = {
           id?: string
           notes?: string
           renewal_date?: string | null
+          session_token?: string | null
           status?: Database["public"]["Enums"]["activation_status"]
           task_id?: string | null
           updated_at?: string
@@ -100,6 +102,7 @@ export type Database = {
           id?: string
           notes?: string
           renewal_date?: string | null
+          session_token?: string | null
           status?: Database["public"]["Enums"]["activation_status"]
           task_id?: string | null
           updated_at?: string
