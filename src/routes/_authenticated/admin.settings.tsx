@@ -62,7 +62,7 @@ function SettingsPage() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/admin/login", replace: true });
   }
 
   return (
