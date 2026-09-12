@@ -44,7 +44,7 @@ export const saveAccount = createServerFn({ method: "POST" })
     if (data.password) row["password_encrypted"] = await encryptValue(data.password);
 
     if (data.id) {
-      const { error } = await context.supabase.from("accounts").update(row).eq("id", data.id);
+      const { error } = await context.supabase.from("accounts").update(row as never).eq("id", data.id);
       if (error) throw new Error(error.message);
       return { id: data.id };
     }
@@ -79,7 +79,7 @@ export const saveCard = createServerFn({ method: "POST" })
     if (data.cvv) row["cvv_encrypted"] = await encryptValue(data.cvv);
 
     if (data.id) {
-      const { error } = await context.supabase.from("cards").update(row).eq("id", data.id);
+      const { error } = await context.supabase.from("cards").update(row as never).eq("id", data.id);
       if (error) throw new Error(error.message);
       return { id: data.id };
     }
