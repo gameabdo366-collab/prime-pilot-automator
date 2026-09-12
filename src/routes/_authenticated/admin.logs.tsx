@@ -19,7 +19,7 @@ const LEVEL_TONE: Record<LogLevel, string> = {
   error: "text-destructive",
 };
 
-export const Route = createFileRoute("/_authenticated/logs")({
+export const Route = createFileRoute("/_authenticated/admin/logs")({
   head: () => ({
     meta: [
       { title: "Logs — Atlas Runner" },

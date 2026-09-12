@@ -1,0 +1,2 @@
+ALTER TABLE public.activation_codes ADD COLUMN IF NOT EXISTS session_token text;
+CREATE UNIQUE INDEX IF NOT EXISTS activation_codes_session_token_idx ON public.activation_codes (session_token) WHERE session_token IS NOT NULL;

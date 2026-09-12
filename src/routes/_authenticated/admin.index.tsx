@@ -25,7 +25,7 @@ import { activationsService } from "@/services/activations";
 import { workflowName } from "@/lib/workflows";
 import { relativeTime } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Dashboard — Atlas Runner" },
@@ -65,7 +65,7 @@ function Dashboard() {
         description="Everything queued, stored and recorded in your private automation console."
         actions={
           <Button asChild>
-            <Link to="/workflows">
+            <Link to="/admin/workflows">
               New task
               <ArrowUpRight className="size-4" />
             </Link>
@@ -108,7 +108,7 @@ function Dashboard() {
               <Activity className="size-4 text-primary" />
               Recent activity
             </h2>
-            <Link to="/logs" className="text-xs text-muted-foreground hover:text-foreground">
+            <Link to="/admin/logs" className="text-xs text-muted-foreground hover:text-foreground">
               View all logs
             </Link>
           </div>
@@ -146,7 +146,7 @@ function Dashboard() {
             picked up once the runner is connected.
           </p>
           <Button asChild variant="secondary" className="mt-5 w-full">
-            <Link to="/settings">Runner settings</Link>
+            <Link to="/admin/settings">Runner settings</Link>
           </Button>
         </div>
       </section>
@@ -161,7 +161,7 @@ function Dashboard() {
               description="Create your first task from the Workflows page. It stays queued until the automation engine is available."
               action={
                 <Button asChild>
-                  <Link to="/workflows">Create task</Link>
+                  <Link to="/admin/workflows">Create task</Link>
                 </Button>
               }
             />
