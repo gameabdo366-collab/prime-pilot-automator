@@ -14,10 +14,13 @@ import { Route as ActivateRouteImport } from './routes/activate'
 import { Route as AuthenticatedVaultRouteImport } from './routes/_authenticated/vault'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAccountsRouteImport } from './routes/_authenticated/admin.accounts'
 import { Route as AuthenticatedAdminActivationsRouteImport } from './routes/_authenticated/admin.activations'
+import { Route as AuthenticatedAdminCardsRouteImport } from './routes/_authenticated/admin.cards'
 import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
 import { Route as AuthenticatedAdminScreenshotsRouteImport } from './routes/_authenticated/admin.screenshots'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminTasksRouteImport } from './routes/_authenticated/admin.tasks'
 import { Route as AuthenticatedAdminWorkflowsRouteImport } from './routes/_authenticated/admin.workflows'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -44,12 +47,23 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAccountsRoute =
+  AuthenticatedAdminAccountsRouteImport.update({
+    id: '/admin/accounts',
+    path: '/admin/accounts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminActivationsRoute =
   AuthenticatedAdminActivationsRouteImport.update({
     id: '/admin/activations',
     path: '/admin/activations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminCardsRoute = AuthenticatedAdminCardsRouteImport.update({
+  id: '/admin/cards',
+  path: '/admin/cards',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
   id: '/admin/logs',
   path: '/admin/logs',
@@ -67,6 +81,11 @@ const AuthenticatedAdminSettingsRoute =
     path: '/admin/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTasksRoute = AuthenticatedAdminTasksRouteImport.update({
+  id: '/admin/tasks',
+  path: '/admin/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminWorkflowsRoute =
   AuthenticatedAdminWorkflowsRouteImport.update({
     id: '/admin/workflows',
@@ -79,10 +98,13 @@ export interface FileRoutesByFullPath {
   '/activate': typeof ActivateRoute
   '/vault': typeof AuthenticatedVaultRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/accounts': typeof AuthenticatedAdminAccountsRoute
   '/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/admin/cards': typeof AuthenticatedAdminCardsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -91,10 +113,13 @@ export interface FileRoutesByTo {
   '/activate': typeof ActivateRoute
   '/vault': typeof AuthenticatedVaultRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/accounts': typeof AuthenticatedAdminAccountsRoute
   '/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/admin/cards': typeof AuthenticatedAdminCardsRoute
   '/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -104,10 +129,13 @@ export interface FileRoutesById {
   '/activate': typeof ActivateRoute
   '/_authenticated/vault': typeof AuthenticatedVaultRoute
   '/admin/login': typeof AdminLoginRoute
+  '/_authenticated/admin/accounts': typeof AuthenticatedAdminAccountsRoute
   '/_authenticated/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/_authenticated/admin/cards': typeof AuthenticatedAdminCardsRoute
   '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
   '/_authenticated/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/_authenticated/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -118,10 +146,13 @@ export interface FileRouteTypes {
     | '/activate'
     | '/vault'
     | '/admin/login'
+    | '/admin/accounts'
     | '/admin/activations'
+    | '/admin/cards'
     | '/admin/logs'
     | '/admin/screenshots'
     | '/admin/settings'
+    | '/admin/tasks'
     | '/admin/workflows'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -130,10 +161,13 @@ export interface FileRouteTypes {
     | '/activate'
     | '/vault'
     | '/admin/login'
+    | '/admin/accounts'
     | '/admin/activations'
+    | '/admin/cards'
     | '/admin/logs'
     | '/admin/screenshots'
     | '/admin/settings'
+    | '/admin/tasks'
     | '/admin/workflows'
     | '/admin'
   id:
@@ -142,10 +176,13 @@ export interface FileRouteTypes {
     | '/activate'
     | '/_authenticated/vault'
     | '/admin/login'
+    | '/_authenticated/admin/accounts'
     | '/_authenticated/admin/activations'
+    | '/_authenticated/admin/cards'
     | '/_authenticated/admin/logs'
     | '/_authenticated/admin/screenshots'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/tasks'
     | '/_authenticated/admin/workflows'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -193,11 +230,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/accounts': {
+      id: '/_authenticated/admin/accounts'
+      path: '/admin/accounts'
+      fullPath: '/admin/accounts'
+      preLoaderRoute: typeof AuthenticatedAdminAccountsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/activations': {
       id: '/_authenticated/admin/activations'
       path: '/admin/activations'
       fullPath: '/admin/activations'
       preLoaderRoute: typeof AuthenticatedAdminActivationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/cards': {
+      id: '/_authenticated/admin/cards'
+      path: '/admin/cards'
+      fullPath: '/admin/cards'
+      preLoaderRoute: typeof AuthenticatedAdminCardsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/logs': {
@@ -221,6 +272,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/tasks': {
+      id: '/_authenticated/admin/tasks'
+      path: '/admin/tasks'
+      fullPath: '/admin/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/workflows': {
       id: '/_authenticated/admin/workflows'
       path: '/admin/workflows'
@@ -233,20 +291,26 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedVaultRoute: typeof AuthenticatedVaultRoute
+  AuthenticatedAdminAccountsRoute: typeof AuthenticatedAdminAccountsRoute
   AuthenticatedAdminActivationsRoute: typeof AuthenticatedAdminActivationsRoute
+  AuthenticatedAdminCardsRoute: typeof AuthenticatedAdminCardsRoute
   AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
   AuthenticatedAdminScreenshotsRoute: typeof AuthenticatedAdminScreenshotsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTasksRoute: typeof AuthenticatedAdminTasksRoute
   AuthenticatedAdminWorkflowsRoute: typeof AuthenticatedAdminWorkflowsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedVaultRoute: AuthenticatedVaultRoute,
+  AuthenticatedAdminAccountsRoute: AuthenticatedAdminAccountsRoute,
   AuthenticatedAdminActivationsRoute: AuthenticatedAdminActivationsRoute,
+  AuthenticatedAdminCardsRoute: AuthenticatedAdminCardsRoute,
   AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
   AuthenticatedAdminScreenshotsRoute: AuthenticatedAdminScreenshotsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminTasksRoute: AuthenticatedAdminTasksRoute,
   AuthenticatedAdminWorkflowsRoute: AuthenticatedAdminWorkflowsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
