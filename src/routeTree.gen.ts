@@ -11,14 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as ActivateRouteImport } from './routes/activate'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedActivationsRouteImport } from './routes/_authenticated/activations'
-import { Route as AuthenticatedLogsRouteImport } from './routes/_authenticated/logs'
-import { Route as AuthenticatedScreenshotsRouteImport } from './routes/_authenticated/screenshots'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedVaultRouteImport } from './routes/_authenticated/vault'
-import { Route as AuthenticatedWorkflowsRouteImport } from './routes/_authenticated/workflows'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminActivationsRouteImport } from './routes/_authenticated/admin.activations'
+import { Route as AuthenticatedAdminLogsRouteImport } from './routes/_authenticated/admin.logs'
+import { Route as AuthenticatedAdminScreenshotsRouteImport } from './routes/_authenticated/admin.screenshots'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminWorkflowsRouteImport } from './routes/_authenticated/admin.workflows'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -29,125 +29,131 @@ const ActivateRoute = ActivateRouteImport.update({
   path: '/activate',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedActivationsRoute =
-  AuthenticatedActivationsRouteImport.update({
-    id: '/activations',
-    path: '/activations',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedLogsRoute = AuthenticatedLogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedScreenshotsRoute =
-  AuthenticatedScreenshotsRouteImport.update({
-    id: '/screenshots',
-    path: '/screenshots',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedVaultRoute = AuthenticatedVaultRouteImport.update({
   id: '/vault',
   path: '/vault',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedWorkflowsRoute = AuthenticatedWorkflowsRouteImport.update({
-  id: '/workflows',
-  path: '/workflows',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminActivationsRoute =
+  AuthenticatedAdminActivationsRouteImport.update({
+    id: '/admin/activations',
+    path: '/admin/activations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLogsRoute = AuthenticatedAdminLogsRouteImport.update({
+  id: '/admin/logs',
+  path: '/admin/logs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminScreenshotsRoute =
+  AuthenticatedAdminScreenshotsRouteImport.update({
+    id: '/admin/screenshots',
+    path: '/admin/screenshots',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/admin/settings',
+    path: '/admin/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminWorkflowsRoute =
+  AuthenticatedAdminWorkflowsRouteImport.update({
+    id: '/admin/workflows',
+    path: '/admin/workflows',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/activate': typeof ActivateRoute
-  '/auth': typeof AuthRoute
-  '/activations': typeof AuthenticatedActivationsRoute
-  '/logs': typeof AuthenticatedLogsRoute
-  '/screenshots': typeof AuthenticatedScreenshotsRoute
-  '/settings': typeof AuthenticatedSettingsRoute
   '/vault': typeof AuthenticatedVaultRoute
-  '/workflows': typeof AuthenticatedWorkflowsRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthenticatedRouteRouteWithChildren
   '/activate': typeof ActivateRoute
-  '/auth': typeof AuthRoute
-  '/activations': typeof AuthenticatedActivationsRoute
-  '/logs': typeof AuthenticatedLogsRoute
-  '/screenshots': typeof AuthenticatedScreenshotsRoute
-  '/settings': typeof AuthenticatedSettingsRoute
   '/vault': typeof AuthenticatedVaultRoute
-  '/workflows': typeof AuthenticatedWorkflowsRoute
-  '/': typeof AuthenticatedIndexRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/activate': typeof ActivateRoute
-  '/auth': typeof AuthRoute
-  '/_authenticated/activations': typeof AuthenticatedActivationsRoute
-  '/_authenticated/logs': typeof AuthenticatedLogsRoute
-  '/_authenticated/screenshots': typeof AuthenticatedScreenshotsRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/vault': typeof AuthenticatedVaultRoute
-  '/_authenticated/workflows': typeof AuthenticatedWorkflowsRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/_authenticated/admin/activations': typeof AuthenticatedAdminActivationsRoute
+  '/_authenticated/admin/logs': typeof AuthenticatedAdminLogsRoute
+  '/_authenticated/admin/screenshots': typeof AuthenticatedAdminScreenshotsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/workflows': typeof AuthenticatedAdminWorkflowsRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/activate'
-    | '/auth'
-    | '/activations'
-    | '/logs'
-    | '/screenshots'
-    | '/settings'
     | '/vault'
-    | '/workflows'
+    | '/admin/login'
+    | '/admin/activations'
+    | '/admin/logs'
+    | '/admin/screenshots'
+    | '/admin/settings'
+    | '/admin/workflows'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/activate'
-    | '/auth'
-    | '/activations'
-    | '/logs'
-    | '/screenshots'
-    | '/settings'
-    | '/vault'
-    | '/workflows'
     | '/'
+    | '/activate'
+    | '/vault'
+    | '/admin/login'
+    | '/admin/activations'
+    | '/admin/logs'
+    | '/admin/screenshots'
+    | '/admin/settings'
+    | '/admin/workflows'
+    | '/admin'
   id:
     | '__root__'
     | '/_authenticated'
     | '/activate'
-    | '/auth'
-    | '/_authenticated/activations'
-    | '/_authenticated/logs'
-    | '/_authenticated/screenshots'
-    | '/_authenticated/settings'
     | '/_authenticated/vault'
-    | '/_authenticated/workflows'
-    | '/_authenticated/'
+    | '/admin/login'
+    | '/_authenticated/admin/activations'
+    | '/_authenticated/admin/logs'
+    | '/_authenticated/admin/screenshots'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/workflows'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ActivateRoute: typeof ActivateRoute
-  AuthRoute: typeof AuthRoute
+  AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,48 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ActivateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/activations': {
-      id: '/_authenticated/activations'
-      path: '/activations'
-      fullPath: '/activations'
-      preLoaderRoute: typeof AuthenticatedActivationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/logs': {
-      id: '/_authenticated/logs'
-      path: '/logs'
-      fullPath: '/logs'
-      preLoaderRoute: typeof AuthenticatedLogsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/screenshots': {
-      id: '/_authenticated/screenshots'
-      path: '/screenshots'
-      fullPath: '/screenshots'
-      preLoaderRoute: typeof AuthenticatedScreenshotsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/vault': {
       id: '/_authenticated/vault'
       path: '/vault'
@@ -215,34 +179,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVaultRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/workflows': {
-      id: '/_authenticated/workflows'
-      path: '/workflows'
-      fullPath: '/workflows'
-      preLoaderRoute: typeof AuthenticatedWorkflowsRouteImport
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/activations': {
+      id: '/_authenticated/admin/activations'
+      path: '/admin/activations'
+      fullPath: '/admin/activations'
+      preLoaderRoute: typeof AuthenticatedAdminActivationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/logs': {
+      id: '/_authenticated/admin/logs'
+      path: '/admin/logs'
+      fullPath: '/admin/logs'
+      preLoaderRoute: typeof AuthenticatedAdminLogsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/screenshots': {
+      id: '/_authenticated/admin/screenshots'
+      path: '/admin/screenshots'
+      fullPath: '/admin/screenshots'
+      preLoaderRoute: typeof AuthenticatedAdminScreenshotsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/workflows': {
+      id: '/_authenticated/admin/workflows'
+      path: '/admin/workflows'
+      fullPath: '/admin/workflows'
+      preLoaderRoute: typeof AuthenticatedAdminWorkflowsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedActivationsRoute: typeof AuthenticatedActivationsRoute
-  AuthenticatedLogsRoute: typeof AuthenticatedLogsRoute
-  AuthenticatedScreenshotsRoute: typeof AuthenticatedScreenshotsRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedVaultRoute: typeof AuthenticatedVaultRoute
-  AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAdminActivationsRoute: typeof AuthenticatedAdminActivationsRoute
+  AuthenticatedAdminLogsRoute: typeof AuthenticatedAdminLogsRoute
+  AuthenticatedAdminScreenshotsRoute: typeof AuthenticatedAdminScreenshotsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminWorkflowsRoute: typeof AuthenticatedAdminWorkflowsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedActivationsRoute: AuthenticatedActivationsRoute,
-  AuthenticatedLogsRoute: AuthenticatedLogsRoute,
-  AuthenticatedScreenshotsRoute: AuthenticatedScreenshotsRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedVaultRoute: AuthenticatedVaultRoute,
-  AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAdminActivationsRoute: AuthenticatedAdminActivationsRoute,
+  AuthenticatedAdminLogsRoute: AuthenticatedAdminLogsRoute,
+  AuthenticatedAdminScreenshotsRoute: AuthenticatedAdminScreenshotsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminWorkflowsRoute: AuthenticatedAdminWorkflowsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -251,7 +257,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ActivateRoute: ActivateRoute,
-  AuthRoute: AuthRoute,
+  AdminLoginRoute: AdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
