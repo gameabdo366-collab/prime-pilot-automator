@@ -25,7 +25,7 @@ import { activationsService } from "@/services/activations";
 import { workflowName } from "@/lib/workflows";
 import { relativeTime } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Dashboard — Atlas Runner" },

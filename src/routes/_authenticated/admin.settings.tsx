@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { settingsService, DEFAULT_SETTINGS } from "@/services/settings";
 import type { AppSettings } from "@/lib/types";
 
-export const Route = createFileRoute("/_authenticated/settings")({
+export const Route = createFileRoute("/_authenticated/admin/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Atlas Runner" },

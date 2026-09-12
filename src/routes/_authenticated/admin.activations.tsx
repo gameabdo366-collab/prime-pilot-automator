@@ -31,7 +31,7 @@ import { screenshotsService } from "@/services/screenshots";
 import { WORKFLOWS, workflowName, planLabel } from "@/lib/workflows";
 import { formatDate, formatDateTime } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/activations")({
+export const Route = createFileRoute("/_authenticated/admin/activations")({
   head: () => ({
     meta: [
       { title: "Activation Codes — Atlas Runner" },

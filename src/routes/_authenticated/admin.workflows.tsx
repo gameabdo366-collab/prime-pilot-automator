@@ -24,7 +24,7 @@ import { relativeTime } from "@/lib/format";
 
 const PRIORITIES: TaskPriority[] = ["Low", "Normal", "High", "Urgent"];
 
-export const Route = createFileRoute("/_authenticated/workflows")({
+export const Route = createFileRoute("/_authenticated/admin/workflows")({
   head: () => ({
     meta: [
       { title: "Workflows — Atlas Runner" },

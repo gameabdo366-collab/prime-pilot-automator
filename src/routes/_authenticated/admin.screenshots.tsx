@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { screenshotsService } from "@/services/screenshots";
 import { formatDateTime } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/screenshots")({
+export const Route = createFileRoute("/_authenticated/admin/screenshots")({
   head: () => ({
     meta: [
       { title: "Screenshots — Atlas Runner" },
