@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as ActivateRouteImport } from './routes/activate'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedLogsRouteImport } from './routes/_authenticated/logs'
@@ -20,6 +21,11 @@ import { Route as AuthenticatedWorkflowsRouteImport } from './routes/_authentica
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivateRoute = ActivateRouteImport.update({
+  id: '/activate',
+  path: '/activate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -61,6 +67,7 @@ const AuthenticatedWorkflowsRoute = AuthenticatedWorkflowsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
   '/logs': typeof AuthenticatedLogsRoute
   '/screenshots': typeof AuthenticatedScreenshotsRoute
@@ -69,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/workflows': typeof AuthenticatedWorkflowsRoute
 }
 export interface FileRoutesByTo {
+  '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
   '/logs': typeof AuthenticatedLogsRoute
   '/screenshots': typeof AuthenticatedScreenshotsRoute
@@ -80,6 +88,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/activate': typeof ActivateRoute
   '/auth': typeof AuthRoute
   '/_authenticated/logs': typeof AuthenticatedLogsRoute
   '/_authenticated/screenshots': typeof AuthenticatedScreenshotsRoute
@@ -92,6 +101,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/activate'
     | '/auth'
     | '/logs'
     | '/screenshots'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/workflows'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/activate'
     | '/auth'
     | '/logs'
     | '/screenshots'
@@ -110,6 +121,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/activate'
     | '/auth'
     | '/_authenticated/logs'
     | '/_authenticated/screenshots'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  ActivateRoute: typeof ActivateRoute
   AuthRoute: typeof AuthRoute
 }
 
@@ -131,6 +144,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activate': {
+      id: '/activate'
+      path: '/activate'
+      fullPath: '/activate'
+      preLoaderRoute: typeof ActivateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -208,6 +228,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  ActivateRoute: ActivateRoute,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
