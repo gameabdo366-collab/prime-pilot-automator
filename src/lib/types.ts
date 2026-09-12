@@ -95,4 +95,36 @@ export interface WorkflowDefinition {
   requiresCard: boolean;
   steps: string[];
   available: boolean;
+  /** Short prefix used at the front of generated activation codes, e.g. AMZ. */
+  codePrefix: string;
+  /** Customer-facing product line shown in the activation portal. */
+  planLabel: string;
+  /** Customer-facing progress messages, in order. Never technical. */
+  customerStages: string[];
+}
+
+export type ActivationStatus =
+  | "Unused"
+  | "Reserved"
+  | "Running"
+  | "Activated"
+  | "Expired"
+  | "Cancelled";
+
+export interface ActivationCode {
+  id: string;
+  code: string;
+  driver: string;
+  card_id: string | null;
+  task_id: string | null;
+  status: ActivationStatus;
+  customer_email: string;
+  /** AES-GCM ciphertext; only the automation engine ever decrypts it. */
+  customer_password_encrypted: string;
+  renewal_date: string | null;
+  activated_at: string | null;
+  expires_at: string | null;
+  notes: string;
+  created_at: string;
+  updated_at: string;
 }

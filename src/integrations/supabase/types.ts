@@ -53,6 +53,75 @@ export type Database = {
         }
         Relationships: []
       }
+      activation_codes: {
+        Row: {
+          activated_at: string | null
+          card_id: string | null
+          code: string
+          created_at: string
+          customer_email: string
+          customer_password_encrypted: string
+          driver: string
+          expires_at: string | null
+          id: string
+          notes: string
+          renewal_date: string | null
+          status: Database["public"]["Enums"]["activation_status"]
+          task_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activated_at?: string | null
+          card_id?: string | null
+          code: string
+          created_at?: string
+          customer_email?: string
+          customer_password_encrypted?: string
+          driver?: string
+          expires_at?: string | null
+          id?: string
+          notes?: string
+          renewal_date?: string | null
+          status?: Database["public"]["Enums"]["activation_status"]
+          task_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          activated_at?: string | null
+          card_id?: string | null
+          code?: string
+          created_at?: string
+          customer_email?: string
+          customer_password_encrypted?: string
+          driver?: string
+          expires_at?: string | null
+          id?: string
+          notes?: string
+          renewal_date?: string | null
+          status?: Database["public"]["Enums"]["activation_status"]
+          task_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activation_codes_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activation_codes_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cards: {
         Row: {
           alias: string
@@ -270,6 +339,13 @@ export type Database = {
     }
     Enums: {
       account_status: "Active" | "Inactive" | "Expired" | "Unknown"
+      activation_status:
+        | "Unused"
+        | "Reserved"
+        | "Running"
+        | "Activated"
+        | "Expired"
+        | "Cancelled"
       card_status: "Available" | "Running" | "Consumed" | "Expired" | "Failed"
       log_level: "debug" | "info" | "warn" | "error"
       task_priority: "Low" | "Normal" | "High" | "Urgent"
@@ -408,6 +484,14 @@ export const Constants = {
   public: {
     Enums: {
       account_status: ["Active", "Inactive", "Expired", "Unknown"],
+      activation_status: [
+        "Unused",
+        "Reserved",
+        "Running",
+        "Activated",
+        "Expired",
+        "Cancelled",
+      ],
       card_status: ["Available", "Running", "Consumed", "Expired", "Failed"],
       log_level: ["debug", "info", "warn", "error"],
       task_priority: ["Low", "Normal", "High", "Urgent"],
