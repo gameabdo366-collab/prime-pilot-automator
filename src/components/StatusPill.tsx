@@ -11,6 +11,9 @@ const TONES: Record<string, string> = {
   Paused: "bg-warning/12 text-warning border-warning/25",
   Expired: "bg-warning/12 text-warning border-warning/25",
   Consumed: "bg-primary/12 text-primary border-primary/25",
+  Unused: "bg-primary/12 text-primary border-primary/25",
+  Reserved: "bg-info/12 text-info border-info/25",
+  Activated: "bg-success/12 text-success border-success/25",
   Failed: "bg-destructive/12 text-destructive border-destructive/25",
   Cancelled: "bg-destructive/12 text-destructive border-destructive/25",
 };
