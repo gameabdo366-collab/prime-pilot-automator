@@ -1,5 +1,5 @@
+import { supabase } from "@/integrations/supabase/client";
 import type { AppSettings } from "@/lib/types";
-import { singleton } from "./store";
 
 export const DEFAULT_SETTINGS: AppSettings = {
   headless_mode: true,
@@ -10,9 +10,21 @@ export const DEFAULT_SETTINGS: AppSettings = {
   runner_token: "",
 };
 
-const store = singleton<AppSettings>("settings", DEFAULT_SETTINGS);
-
 export const settingsService = {
-  get: store.get,
-  save: store.set,
+  async get(): Promise<AppSettings> {
+    const { data, error } = await supabase.from("settings").select("*").maybeSingle();
+    if (error) throw new Error(error.message);
+    return { ...DEFAULT_SETTINGS, ...(data ?? {}) } as AppSettings;
+  },
+
+  async save(settings: AppSettings): Promise<AppSettings> {
+    const { data: session } = await supabase.auth.getUser();
+    const userId = session.user?.id;
+    if (!userId) throw new Error("Not signed in.");
+    const { error } = await supabase
+      .from("settings")
+      .upsert({ user_id: userId, ...settings }, { onConflict: "user_id" });
+    if (error) throw new Error(error.message);
+    return settings;
+  },
 };

@@ -1,10 +1,9 @@
+import { supabase } from "@/integrations/supabase/client";
+import { saveCard, revealCardSecret } from "@/lib/vault.functions";
 import type { Card, CardStatus } from "@/lib/types";
-import { sealSecret } from "@/lib/secret";
-import { newId, nowIso, repository } from "./store";
-
-const repo = repository<Card>("cards");
 
 export interface CardInput {
+  id: string | null;
   alias: string;
   card_number: string;
   expiry: string;
@@ -16,56 +15,25 @@ export interface CardInput {
 
 export const cardsService = {
   async list(): Promise<Card[]> {
-    const rows = await repo.list();
-    const stamp = Date.now();
-    // Temporary virtual cards age out on their own.
-    const aged = rows.map((card) =>
-      card.status === "Available" &&
-      card.expires_at &&
-      new Date(card.expires_at).getTime() < stamp
-        ? { ...card, status: "Expired" as CardStatus }
-        : card,
-    );
-    if (aged.some((card, i) => card.status !== rows[i]!.status)) await repo.replaceAll(aged);
-    return aged.sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const { data, error } = await supabase
+      .from("cards")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return (data ?? []) as Card[];
   },
 
-  async available(): Promise<Card[]> {
-    return (await this.list()).filter((card) => card.status === "Available");
+  async save(input: CardInput) {
+    return saveCard({ data: input });
   },
 
-  async create(input: CardInput): Promise<Card> {
-    const stamp = nowIso();
-    return repo.insert({
-      id: newId(),
-      alias: input.alias.trim(),
-      card_number: sealSecret(input.card_number.replace(/\s+/g, "")),
-      expiry: input.expiry.trim(),
-      cvv: sealSecret(input.cvv.trim()),
-      expires_at: input.expires_at,
-      notes: input.notes.trim(),
-      status: input.status,
-      created_at: stamp,
-      updated_at: stamp,
-    });
-  },
-
-  async update(id: string, input: CardInput) {
-    const patch: Partial<Card> = {
-      alias: input.alias.trim(),
-      expiry: input.expiry.trim(),
-      expires_at: input.expires_at,
-      notes: input.notes.trim(),
-      status: input.status,
-      updated_at: nowIso(),
-    };
-    if (input.card_number) patch.card_number = sealSecret(input.card_number.replace(/\s+/g, ""));
-    if (input.cvv) patch.cvv = sealSecret(input.cvv.trim());
-    return repo.update(id, patch);
+  async revealSecrets(id: string) {
+    return revealCardSecret({ data: { id } });
   },
 
   async setStatus(id: string, status: CardStatus) {
-    return repo.update(id, { status, updated_at: nowIso() });
+    const { error } = await supabase.from("cards").update({ status }).eq("id", id);
+    if (error) throw new Error(error.message);
   },
 
   /** A card is never reused after a successful payment. */
@@ -74,6 +42,17 @@ export const cardsService = {
   },
 
   async remove(id: string) {
-    return repo.remove(id);
+    const { error } = await supabase.from("cards").delete().eq("id", id);
+    if (error) throw new Error(error.message);
   },
 };
+
+export function isCardUsable(card: Card): boolean {
+  if (card.status !== "Available") return false;
+  if (card.expires_at && new Date(card.expires_at).getTime() < Date.now()) return false;
+  return true;
+}
+
+export function maskCard(card: Card): string {
+  return card.card_last4 ? `•••• •••• •••• ${card.card_last4}` : "•••• ••••";
+}

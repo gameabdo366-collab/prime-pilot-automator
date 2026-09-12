@@ -1,7 +1,6 @@
 /**
- * Domain model for the automation platform.
- * These types are the contract between the UI and the data layer,
- * so the storage backend can be swapped without touching screens.
+ * Domain model. Field names mirror the database columns so the services layer
+ * stays a thin, typed pass-through.
  */
 
 export type AccountStatus = "Active" | "Inactive" | "Expired" | "Unknown";
@@ -9,8 +8,8 @@ export type AccountStatus = "Active" | "Inactive" | "Expired" | "Unknown";
 export interface Account {
   id: string;
   email: string;
-  /** Stored via the secret layer, never displayed in plain text by default. */
-  password: string;
+  /** AES-GCM ciphertext; only revealed through the vault API. */
+  password_encrypted: string;
   notes: string;
   status: AccountStatus;
   prime_expiration: string | null;
@@ -24,11 +23,10 @@ export type CardStatus = "Available" | "Running" | "Consumed" | "Expired" | "Fai
 export interface Card {
   id: string;
   alias: string;
-  /** Stored via the secret layer. */
-  card_number: string;
+  card_number_encrypted: string;
+  card_last4: string;
   expiry: string;
-  /** Stored via the secret layer. */
-  cvv: string;
+  cvv_encrypted: string;
   /** When this temporary virtual card stops being usable. */
   expires_at: string | null;
   notes: string;
@@ -74,7 +72,6 @@ export interface LogEntry {
 export interface Screenshot {
   id: string;
   task_id: string | null;
-  /** Public URL or data URL of the captured image. */
   image: string;
   step: string;
   created_at: string;
