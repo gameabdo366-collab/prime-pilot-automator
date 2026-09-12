@@ -112,13 +112,14 @@ type PortalRow = {
   task_id: string | null;
   status: string;
   expires_at: string | null;
+  session_token: string | null;
 };
 
 async function loadCode(code: string) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin
     .from("activation_codes")
-    .select("id, user_id, code, driver, card_id, task_id, status, expires_at")
+    .select("id, user_id, code, driver, card_id, task_id, status, expires_at, session_token")
     .eq("code", code)
     .maybeSingle();
   if (error) throw new Error("We could not check that code right now. Please try again.");
@@ -246,15 +247,23 @@ export const beginActivation = createServerFn({ method: "POST" })
       message: `Activation ${row.code} claimed by ${data.email}. Waiting for the automation engine.`,
     } as never);
 
-    return { started: true as const, plan: workflow.planLabel };
+    return { started: true as const, plan: workflow.planLabel, session };
   });
 
-/** Step 3 — friendly progress only. No technical detail ever leaves here. */
+/**
+ * Step 3 — friendly progress only. Requires the session key handed out by
+ * beginActivation, so one customer can never watch another's activation.
+ */
 export const activationProgress = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => codeInput.parse(input))
+  .inputValidator((input: unknown) =>
+    z.object({ code: codeInput.shape.code, session: z.string().min(10) }).parse(input),
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin, row } = await loadCode(data.code);
-    if (!row) throw new Error("This activation code was not found.");
+    if (!row || !row.session_token || row.session_token !== data.session) {
+      throw new Error("This activation session is no longer available.");
+    }
+
 
     let progress = 0;
     let taskStatus = "Pending";
