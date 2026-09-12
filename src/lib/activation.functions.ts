@@ -131,10 +131,22 @@ function isExpired(row: PortalRow): boolean {
 
 /** Step 1 — the customer types a code. Nothing about the card is returned. */
 export const verifyActivationCode = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => codeInput.parse(input))
+  .inputValidator((input: unknown) =>
+    z
+      .object({ code: codeInput.shape.code, prefix: z.string().nullish().default(null) })
+      .parse(input),
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin, row } = await loadCode(data.code);
     if (!row) return { valid: false as const, reason: "This activation code was not found." };
+
+    // Branded portals (/activate/AMZ …) only accept their own driver's codes.
+    if (data.prefix) {
+      const expected = getWorkflow(row.driver)?.codePrefix?.toUpperCase();
+      if (expected && expected !== data.prefix.trim().toUpperCase()) {
+        return { valid: false as const, reason: "This code belongs to a different service." };
+      }
+    }
 
     if (isExpired(row) && (row.status === "Unused" || row.status === "Reserved")) {
       await supabaseAdmin

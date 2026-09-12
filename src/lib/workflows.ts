@@ -62,6 +62,12 @@ export function getWorkflow(key: string): WorkflowDefinition | undefined {
   return WORKFLOWS.find((w) => w.key === key);
 }
 
+/** Resolves a branded portal segment such as "AMZ" or "chatgpt" to its driver. */
+export function driverByPrefix(prefix: string): WorkflowDefinition | undefined {
+  const needle = prefix.trim().toUpperCase();
+  return WORKFLOWS.find((w) => w.codePrefix.toUpperCase() === needle);
+}
+
 export function workflowName(key: string): string {
   return getWorkflow(key)?.name ?? key;
 }
