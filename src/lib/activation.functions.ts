@@ -225,6 +225,9 @@ export const beginActivation = createServerFn({ method: "POST" })
       .single();
     if (taskError) throw new Error("We could not start the activation. Please try again.");
 
+    // A private session key: the only way to read this activation's progress.
+    const session = crypto.randomUUID();
+
     await supabaseAdmin
       .from("activation_codes")
       .update({
@@ -232,6 +235,7 @@ export const beginActivation = createServerFn({ method: "POST" })
         customer_email: data.email,
         customer_password_encrypted: encryptedPassword,
         task_id: task.id,
+        session_token: session,
       } as never)
       .eq("id", row.id);
 
