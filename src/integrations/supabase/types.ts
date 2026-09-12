@@ -14,7 +14,253 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accounts: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          last_execution: string | null
+          notes: string
+          password_encrypted: string
+          prime_expiration: string | null
+          status: Database["public"]["Enums"]["account_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          last_execution?: string | null
+          notes?: string
+          password_encrypted?: string
+          prime_expiration?: string | null
+          status?: Database["public"]["Enums"]["account_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          last_execution?: string | null
+          notes?: string
+          password_encrypted?: string
+          prime_expiration?: string | null
+          status?: Database["public"]["Enums"]["account_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cards: {
+        Row: {
+          alias: string
+          card_last4: string
+          card_number_encrypted: string
+          created_at: string
+          cvv_encrypted: string
+          expires_at: string | null
+          expiry: string
+          id: string
+          notes: string
+          status: Database["public"]["Enums"]["card_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alias: string
+          card_last4?: string
+          card_number_encrypted?: string
+          created_at?: string
+          cvv_encrypted?: string
+          expires_at?: string | null
+          expiry?: string
+          id?: string
+          notes?: string
+          status?: Database["public"]["Enums"]["card_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          alias?: string
+          card_last4?: string
+          card_number_encrypted?: string
+          created_at?: string
+          cvv_encrypted?: string
+          expires_at?: string | null
+          expiry?: string
+          id?: string
+          notes?: string
+          status?: Database["public"]["Enums"]["card_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      logs: {
+        Row: {
+          created_at: string
+          id: string
+          level: Database["public"]["Enums"]["log_level"]
+          message: string
+          task_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          level?: Database["public"]["Enums"]["log_level"]
+          message: string
+          task_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          level?: Database["public"]["Enums"]["log_level"]
+          message?: string
+          task_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "logs_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      screenshots: {
+        Row: {
+          created_at: string
+          id: string
+          image: string
+          step: string
+          task_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image: string
+          step?: string
+          task_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image?: string
+          step?: string
+          task_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "screenshots_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      settings: {
+        Row: {
+          headless_mode: boolean
+          retries: number
+          runner_token: string
+          runner_url: string
+          timeout_seconds: number
+          updated_at: string
+          user_id: string
+          visible_browser: boolean
+        }
+        Insert: {
+          headless_mode?: boolean
+          retries?: number
+          runner_token?: string
+          runner_url?: string
+          timeout_seconds?: number
+          updated_at?: string
+          user_id?: string
+          visible_browser?: boolean
+        }
+        Update: {
+          headless_mode?: boolean
+          retries?: number
+          runner_token?: string
+          runner_url?: string
+          timeout_seconds?: number
+          updated_at?: string
+          user_id?: string
+          visible_browser?: boolean
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          account_id: string | null
+          card_id: string | null
+          created_at: string
+          finished_at: string | null
+          id: string
+          notes: string
+          priority: Database["public"]["Enums"]["task_priority"]
+          progress: number
+          started_at: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          user_id: string
+          workflow: string
+        }
+        Insert: {
+          account_id?: string | null
+          card_id?: string | null
+          created_at?: string
+          finished_at?: string | null
+          id?: string
+          notes?: string
+          priority?: Database["public"]["Enums"]["task_priority"]
+          progress?: number
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          user_id?: string
+          workflow: string
+        }
+        Update: {
+          account_id?: string | null
+          card_id?: string | null
+          created_at?: string
+          finished_at?: string | null
+          id?: string
+          notes?: string
+          priority?: Database["public"]["Enums"]["task_priority"]
+          progress?: number
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          user_id?: string
+          workflow?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +269,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      account_status: "Active" | "Inactive" | "Expired" | "Unknown"
+      card_status: "Available" | "Running" | "Consumed" | "Expired" | "Failed"
+      log_level: "debug" | "info" | "warn" | "error"
+      task_priority: "Low" | "Normal" | "High" | "Urgent"
+      task_status:
+        | "Pending"
+        | "Running"
+        | "Paused"
+        | "Completed"
+        | "Failed"
+        | "Cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +406,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_status: ["Active", "Inactive", "Expired", "Unknown"],
+      card_status: ["Available", "Running", "Consumed", "Expired", "Failed"],
+      log_level: ["debug", "info", "warn", "error"],
+      task_priority: ["Low", "Normal", "High", "Urgent"],
+      task_status: [
+        "Pending",
+        "Running",
+        "Paused",
+        "Completed",
+        "Failed",
+        "Cancelled",
+      ],
+    },
   },
 } as const
