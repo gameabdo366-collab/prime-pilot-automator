@@ -1,25 +1,19 @@
+import { supabase } from "@/integrations/supabase/client";
 import type { LogEntry, LogLevel } from "@/lib/types";
-import { newId, nowIso, repository } from "./store";
-
-const repo = repository<LogEntry>("logs");
 
 export const logsService = {
-  async list(): Promise<LogEntry[]> {
-    const rows = await repo.list();
-    return rows.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  async list(limit = 300): Promise<LogEntry[]> {
+    const { data, error } = await supabase
+      .from("logs")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    if (error) throw new Error(error.message);
+    return (data ?? []) as LogEntry[];
   },
 
   async add(entry: { task_id: string | null; level: LogLevel; message: string }) {
-    return repo.insert({
-      id: newId(),
-      task_id: entry.task_id,
-      level: entry.level,
-      message: entry.message,
-      created_at: nowIso(),
-    });
-  },
-
-  async clear() {
-    return repo.replaceAll([]);
+    const { error } = await supabase.from("logs").insert(entry);
+    if (error) throw new Error(error.message);
   },
 };
