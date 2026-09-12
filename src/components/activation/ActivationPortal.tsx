@@ -28,8 +28,8 @@ export function ActivationPortal({
   prefix,
   brandLabel,
 }: {
-  prefix?: string;
-  brandLabel?: string;
+  prefix?: string | undefined;
+  brandLabel?: string | undefined;
 }) {
   const [step, setStep] = useState<Step>("code");
   const [code, setCode] = useState(prefix ? `${prefix}-` : "");
